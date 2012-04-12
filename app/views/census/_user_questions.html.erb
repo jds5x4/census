@@ -1,0 +1,21 @@
+<% if formtastic ||= false %>
+  <% datagroup.questions.each do |question| %>
+    <%= render 'census/question_fields_formtastic', :question => question, :user => user %>
+  <% end %>
+<% else %>
+  <div class="census_questions">
+    <% Census::DataGroup.all.each do |group| -%>
+      <fieldset id="<%=group.name.parameterize %>">
+        <legend><%= title ||= h(group.name) %></legend>
+        <% group.questions.each do |question| -%>
+          <% if formtastic ||= false%>
+            <%= render 'census/question_fields_formtastic', :question => question, :user => user %>
+          <% else %>
+            <%= render 'census/question_fields', :question => question, :user => user %>
+          <% end %>
+        <% end -%>
+      </fieldset>
+    <% end %>
+  </div>
+<% end %>
+

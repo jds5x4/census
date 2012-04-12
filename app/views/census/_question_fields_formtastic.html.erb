@@ -1,0 +1,56 @@
+<% if question.data_type == 'Date' %>
+  <% answer = user.first_answer_for(question) -%>
+    <% answer = user.first_answer_for(question) -%>
+    <%= semantic_fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer do |f| -%>
+      <%= f.inputs do %>
+        <%= f.input :id, :as => :hidden %>
+        <%= f.input :question_id, :as => :hidden %>
+        <%= f.input :data, :as => :date_picker, :label => question.prompt, :maxlength => 10, :pattern => '\d+', :placeholder => 'mm/dd/yyyy' %>
+      <% end %>
+    <% end %>
+<% elsif question.choices.empty? %>
+  <% answer = user.first_answer_for(question) -%>
+  <%= semantic_fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer do |f| -%>
+    <%= f.inputs do %>
+      <%= f.input :id, :as => :hidden %>
+      <%= f.input :question_id, :as => :hidden %>
+      <%= f.input :data, :as => :string, :label => question.prompt %>
+    <% end %>
+  <% end %>
+
+<% elsif question.multiple? %>
+  <div class="checkboxes" id="<%=h question.prompt.parameterize %>">
+    <%= label_tag question.prompt %>
+    <ul>
+      <% question.choices.each do |choice| -%>
+        <% answer = user.answer_for_choice(choice) -%>
+        <%= fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer do |f| -%>
+          <%= f.hidden_field :id %>
+          <%= f.hidden_field :question_id %>
+          <li>
+            <%= f.check_box :data, {}, choice.value, '' %>
+            <%= f.label :data, choice.value %>
+          </li>
+        <% end -%>
+      <% end -%>
+    </ul>
+  </div>
+
+<% else %>
+  <% answer = user.first_answer_for(question) -%>
+  <%= semantic_fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer do |f| -%>
+    <%= f.inputs do %>
+      <%= f.input :id, :as => :hidden %>
+      <%= f.input :question_id, :as => :hidden %>
+      <% if question.other? #display as radio buttons %>
+        <%= f.input :data, :as => :radio, :collection => question.choices.collect{|d| d.value }, :label => false %>
+      <% else %>
+        <% if answer.data.blank? %>
+          <%= f.input :data, :as => :select, :label => question.prompt, :collection => question.choices.collect{|d| d.value } %>
+        <% else %>
+          <%= f.input :data, :as => :select, :label => question.prompt, :collection => question.choices.collect{|d| d.value } %>
+        <% end %>
+      <% end %>
+    <% end %> 
+  <% end %>
+<% end %>

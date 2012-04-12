@@ -1,0 +1,43 @@
+    def data
+      if question.data_type == 'Date'
+        date = read_attribute(:data)
+        date_data = (date.blank? ? nil : Date.parse(read_attribute(:data)))
+        return date_data.strftime("%m/%d/%Y") unless date_data.blank?
+      else
+        read_attribute(:data)
+      end
+    end
+
+    def data=(data)
+      if question.data_type == 'Date'
+        date_data = Date.strptime(data, "%m/%d/%Y")
+        write_attribute(:data,"#{date_data.to_s}")
+      else
+        write_attribute(:data, )
+      end
+    end
+
+
+
+
+
+
+
+    def data
+      if question.data_type == 'Date'
+        date = read_attribute(:data)
+        date.blank? ? nil : Date.parse(read_attribute(:data))
+      else
+        read_attribute(:data)
+      end
+    end
+
+    def data=(data)
+      write_attribute(:data,"#{data.to_s}")
+
+      # if question.data_type == 'Date'
+      #   write_attribute(:data,"#{data.to_s}")
+      # else
+      #   write_attribute(:data, )
+      # end
+    end

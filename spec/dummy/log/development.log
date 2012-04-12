@@ -1,0 +1,392 @@
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (2.4ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (2.1ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.3ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.5ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (2.3ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('0')
+  [1m[36m (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[36m (0.4ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateCensusTables (20120214170153)
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (0.7ms)[0m  [1mCREATE TABLE "data_groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "position" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "questions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "data_group_id" integer, "data_type" varchar(255), "prompt" varchar(255), "multiple" boolean, "other" boolean, "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("questions")[0m
+  [1m[35m (0.2ms)[0m  CREATE INDEX "idx_qstns_datagrpid" ON "questions" ("data_group_id")
+  [1m[36m (0.2ms)[0m  [1mCREATE TABLE "choices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "value" varchar(255), "position" integer, "group" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("choices")
+  [1m[36m (0.1ms)[0m  [1mCREATE INDEX "idx_choices_qstnid" ON "choices" ("question_id")[0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.2ms)[0m  [1mCREATE TABLE "answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "user_id" integer, "data" varchar(255)) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (0.2ms)[0m  [1mCREATE INDEX "idx_answrs_qstnid" ON "answers" ("question_id")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('idx_answrs_qstnid')[0m
+  [1m[35m (0.2ms)[0m  CREATE INDEX "idx_answrs_usrid" ON "answers" ("user_id")
+  [1m[36m (16.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120214170153')[0m
+  [1m[35m (0.6ms)[0m  select sqlite_version(*)
+  [1m[36m (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_info('idx_answrs_usrid')[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_info('idx_answrs_qstnid')
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("choices")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_info('idx_choices_qstnid')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("data_groups")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("questions")
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_info('idx_qstns_datagrpid')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("users")
+  [1m[36m (0.7ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (12.0ms)[0m  DROP TABLE "answers"
+  [1m[36m (2.1ms)[0m  [1mCREATE TABLE "answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "user_id" integer, "data" varchar(255)) [0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (14.5ms)[0m  [1mCREATE INDEX "idx_answrs_qstnid" ON "answers" ("question_id")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('idx_answrs_qstnid')[0m
+  [1m[35m (2.0ms)[0m  CREATE INDEX "idx_answrs_usrid" ON "answers" ("user_id")
+  [1m[36m (2.8ms)[0m  [1mDROP TABLE "choices"[0m
+  [1m[35m (17.0ms)[0m  CREATE TABLE "choices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "value" varchar(255), "position" integer, "group" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("choices")[0m
+  [1m[35m (1.7ms)[0m  CREATE INDEX "idx_choices_qstnid" ON "choices" ("question_id")
+  [1m[36m (11.7ms)[0m  [1mDROP TABLE "data_groups"[0m
+  [1m[35m (2.0ms)[0m  CREATE TABLE "data_groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (13.3ms)[0m  [1mDROP TABLE "questions"[0m
+  [1m[35m (6.3ms)[0m  CREATE TABLE "questions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "data_group_id" integer, "data_type" varchar(255), "prompt" varchar(255), "multiple" boolean, "other" boolean, "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("questions")[0m
+  [1m[35m (2.0ms)[0m  CREATE INDEX "idx_qstns_datagrpid" ON "questions" ("data_group_id")
+  [1m[36m (13.2ms)[0m  [1mDROP TABLE "users"[0m
+  [1m[35m (2.8ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.5ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (2.9ms)[0m  CREATE TABLE "answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "user_id" integer, "data" varchar(255)) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("answers")[0m
+  [1m[35m (2.0ms)[0m  CREATE INDEX "idx_answrs_qstnid" ON "answers" ("question_id")
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("answers")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('idx_answrs_qstnid')
+  [1m[36m (1.9ms)[0m  [1mCREATE INDEX "idx_answrs_usrid" ON "answers" ("user_id")[0m
+  [1m[35m (1.9ms)[0m  CREATE TABLE "choices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "value" varchar(255), "position" integer, "group" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("choices")[0m
+  [1m[35m (1.8ms)[0m  CREATE INDEX "idx_choices_qstnid" ON "choices" ("question_id")
+  [1m[36m (1.8ms)[0m  [1mCREATE TABLE "data_groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "position" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (2.3ms)[0m  CREATE TABLE "questions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "data_group_id" integer, "data_type" varchar(255), "prompt" varchar(255), "multiple" boolean, "other" boolean, "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("questions")[0m
+  [1m[35m (2.0ms)[0m  CREATE INDEX "idx_qstns_datagrpid" ON "questions" ("data_group_id")
+  [1m[36m (1.8ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (1.9ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (1.8ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.1ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (1.8ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120214170153')
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[36m (0.7ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (3.0ms)[0m  DROP TABLE "answers"
+  [1m[36m (1.9ms)[0m  [1mCREATE TABLE "answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "user_id" integer, "data" varchar(255)) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (51.2ms)[0m  [1mCREATE INDEX "idx_answrs_qstnid" ON "answers" ("question_id")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('idx_answrs_qstnid')[0m
+  [1m[35m (1.9ms)[0m  CREATE INDEX "idx_answrs_usrid" ON "answers" ("user_id")
+  [1m[36m (1.7ms)[0m  [1mDROP TABLE "choices"[0m
+  [1m[35m (10.3ms)[0m  CREATE TABLE "choices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "value" varchar(255), "position" integer, "group" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("choices")[0m
+  [1m[35m (1.7ms)[0m  CREATE INDEX "idx_choices_qstnid" ON "choices" ("question_id")
+  [1m[36m (2.2ms)[0m  [1mDROP TABLE "data_groups"[0m
+  [1m[35m (1.6ms)[0m  CREATE TABLE "data_groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (1.8ms)[0m  [1mDROP TABLE "questions"[0m
+  [1m[35m (5.5ms)[0m  CREATE TABLE "questions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "data_group_id" integer, "data_type" varchar(255), "prompt" varchar(255), "multiple" boolean, "other" boolean, "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("questions")[0m
+  [1m[35m (1.5ms)[0m  CREATE INDEX "idx_qstns_datagrpid" ON "questions" ("data_group_id")
+  [1m[36m (2.3ms)[0m  [1mDROP TABLE "users"[0m
+  [1m[35m (1.4ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (1.9ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.3ms)[0m  select sqlite_version(*)
+  [1m[36m (2.7ms)[0m  [1mCREATE TABLE "answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "user_id" integer, "data" varchar(255)) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (2.3ms)[0m  [1mCREATE INDEX "idx_answrs_qstnid" ON "answers" ("question_id")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('idx_answrs_qstnid')[0m
+  [1m[35m (2.0ms)[0m  CREATE INDEX "idx_answrs_usrid" ON "answers" ("user_id")
+  [1m[36m (1.7ms)[0m  [1mCREATE TABLE "choices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "value" varchar(255), "position" integer, "group" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("choices")
+  [1m[36m (1.8ms)[0m  [1mCREATE INDEX "idx_choices_qstnid" ON "choices" ("question_id")[0m
+  [1m[35m (1.8ms)[0m  CREATE TABLE "data_groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (1.8ms)[0m  [1mCREATE TABLE "questions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "data_group_id" integer, "data_type" varchar(255), "prompt" varchar(255), "multiple" boolean, "other" boolean, "position" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("questions")
+  [1m[36m (2.1ms)[0m  [1mCREATE INDEX "idx_qstns_datagrpid" ON "questions" ("data_group_id")[0m
+  [1m[35m (1.8ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (1.9ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("schema_migrations")
+  [1m[36m (1.7ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.1ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (1.9ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120214170153')[0m
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.3ms)[0m  select sqlite_version(*)
+  [1m[36m (2.6ms)[0m  [1mCREATE TABLE "answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "user_id" integer, "data" varchar(255)) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (1.8ms)[0m  [1mCREATE INDEX "idx_answrs_qstnid" ON "answers" ("question_id")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('idx_answrs_qstnid')[0m
+  [1m[35m (1.9ms)[0m  CREATE INDEX "idx_answrs_usrid" ON "answers" ("user_id")
+  [1m[36m (1.8ms)[0m  [1mCREATE TABLE "choices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "value" varchar(255), "position" integer, "group" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("choices")
+  [1m[36m (1.8ms)[0m  [1mCREATE INDEX "idx_choices_qstnid" ON "choices" ("question_id")[0m
+  [1m[35m (1.7ms)[0m  CREATE TABLE "data_groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (1.8ms)[0m  [1mCREATE TABLE "questions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "data_group_id" integer, "data_type" varchar(255), "prompt" varchar(255), "multiple" boolean, "other" boolean, "position" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("questions")
+  [1m[36m (1.8ms)[0m  [1mCREATE INDEX "idx_qstns_datagrpid" ON "questions" ("data_group_id")[0m
+  [1m[35m (1.8ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (1.7ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("schema_migrations")
+  [1m[36m (1.5ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.1ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (1.8ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120214170153')[0m
+  [1m[36m (0.7ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (11.8ms)[0m  DROP TABLE "answers"
+  [1m[36m (1.9ms)[0m  [1mCREATE TABLE "answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "user_id" integer, "data" varchar(255)) [0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (12.3ms)[0m  [1mCREATE INDEX "idx_answrs_qstnid" ON "answers" ("question_id")[0m
+  [1m[35m (0.2ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('idx_answrs_qstnid')[0m
+  [1m[35m (14.3ms)[0m  CREATE INDEX "idx_answrs_usrid" ON "answers" ("user_id")
+  [1m[36m (2.6ms)[0m  [1mDROP TABLE "choices"[0m
+  [1m[35m (15.2ms)[0m  CREATE TABLE "choices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "value" varchar(255), "position" integer, "group" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("choices")[0m
+  [1m[35m (14.2ms)[0m  CREATE INDEX "idx_choices_qstnid" ON "choices" ("question_id")
+  [1m[36m (2.1ms)[0m  [1mDROP TABLE "data_groups"[0m
+  [1m[35m (1.8ms)[0m  CREATE TABLE "data_groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (2.1ms)[0m  [1mDROP TABLE "questions"[0m
+  [1m[35m (10.4ms)[0m  CREATE TABLE "questions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "data_group_id" integer, "data_type" varchar(255), "prompt" varchar(255), "multiple" boolean, "other" boolean, "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("questions")[0m
+  [1m[35m (13.2ms)[0m  CREATE INDEX "idx_qstns_datagrpid" ON "questions" ("data_group_id")
+  [1m[36m (2.3ms)[0m  [1mDROP TABLE "users"[0m
+  [1m[35m (1.8ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.4ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.5ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("answers")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('idx_answrs_usrid')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('idx_answrs_qstnid')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("choices")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('idx_choices_qstnid')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("data_groups")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("questions")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('idx_qstns_datagrpid')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[36m (0.7ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (2.9ms)[0m  DROP TABLE "answers"
+  [1m[36m (1.8ms)[0m  [1mCREATE TABLE "answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "user_id" integer, "data" varchar(255)) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (20.3ms)[0m  [1mCREATE INDEX "idx_answrs_qstnid" ON "answers" ("question_id")[0m
+  [1m[35m (0.2ms)[0m  PRAGMA index_list("answers")
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_info('idx_answrs_qstnid')[0m
+  [1m[35m (2.0ms)[0m  CREATE INDEX "idx_answrs_usrid" ON "answers" ("user_id")
+  [1m[36m (2.3ms)[0m  [1mDROP TABLE "choices"[0m
+  [1m[35m (16.4ms)[0m  CREATE TABLE "choices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "value" varchar(255), "position" integer, "group" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("choices")[0m
+  [1m[35m (2.2ms)[0m  CREATE INDEX "idx_choices_qstnid" ON "choices" ("question_id")
+  [1m[36m (1.7ms)[0m  [1mDROP TABLE "data_groups"[0m
+  [1m[35m (1.8ms)[0m  CREATE TABLE "data_groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (1.7ms)[0m  [1mDROP TABLE "questions"[0m
+  [1m[35m (12.6ms)[0m  CREATE TABLE "questions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "data_group_id" integer, "data_type" varchar(255), "prompt" varchar(255), "multiple" boolean, "other" boolean, "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("questions")[0m
+  [1m[35m (1.8ms)[0m  CREATE INDEX "idx_qstns_datagrpid" ON "questions" ("data_group_id")
+  [1m[36m (1.7ms)[0m  [1mDROP TABLE "users"[0m
+  [1m[35m (1.8ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.5ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (3.0ms)[0m  CREATE TABLE "answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "user_id" integer, "data" varchar(255)) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("answers")[0m
+  [1m[35m (1.9ms)[0m  CREATE INDEX "idx_answrs_qstnid" ON "answers" ("question_id")
+  [1m[36m (0.3ms)[0m  [1mPRAGMA index_list("answers")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_info('idx_answrs_qstnid')
+  [1m[36m (1.9ms)[0m  [1mCREATE INDEX "idx_answrs_usrid" ON "answers" ("user_id")[0m
+  [1m[35m (1.9ms)[0m  CREATE TABLE "choices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "value" varchar(255), "position" integer, "group" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("choices")[0m
+  [1m[35m (1.9ms)[0m  CREATE INDEX "idx_choices_qstnid" ON "choices" ("question_id")
+  [1m[36m (1.8ms)[0m  [1mCREATE TABLE "data_groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "position" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (2.1ms)[0m  CREATE TABLE "questions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "data_group_id" integer, "data_type" varchar(255), "prompt" varchar(255), "multiple" boolean, "other" boolean, "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("questions")[0m
+  [1m[35m (1.9ms)[0m  CREATE INDEX "idx_qstns_datagrpid" ON "questions" ("data_group_id")
+  [1m[36m (1.8ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (1.8ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (2.0ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.2ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (2.6ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120214170153')
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (2.4ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (1.9ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[36m (0.3ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (2.7ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (2.8ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.3ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.1ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (3.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('0')
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (2.7ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (1.9ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.1ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (1.8ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('0')
+  [1m[36m (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[36m (0.3ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.2ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.3ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (2.8ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (1.8ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.3ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.3ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.2ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (2.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('0')
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[36m (0.3ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.3ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.4ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (2.8ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (1.7ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.4ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.3ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.3ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.3ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateCensusTables (20120221154551)
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.9ms)[0m  [1mCREATE TABLE "census_data_groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "position" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "census_questions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "data_group_id" integer, "data_type" varchar(255), "prompt" varchar(255), "multiple" boolean, "other" boolean, "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("census_questions")[0m
+  [1m[35m (0.2ms)[0m  CREATE INDEX "idx_qstns_datagrpid" ON "census_questions" ("data_group_id")
+  [1m[36m (0.3ms)[0m  [1mCREATE TABLE "census_choices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "value" varchar(255), "position" integer, "group" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("census_choices")
+  [1m[36m (0.2ms)[0m  [1mCREATE INDEX "idx_choices_qstnid" ON "census_choices" ("question_id")[0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "census_answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "user_id" integer, "data" varchar(255)) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("census_answers")[0m
+  [1m[35m (0.2ms)[0m  CREATE INDEX "idx_answrs_qstnid" ON "census_answers" ("question_id")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("census_answers")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('idx_answrs_qstnid')
+  [1m[36m (0.2ms)[0m  [1mCREATE INDEX "idx_answrs_usrid" ON "census_answers" ("user_id")[0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20120221154551')
+  [1m[36m (0.4ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("census_answers")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_info('idx_answrs_usrid')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('idx_answrs_qstnid')[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("census_choices")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('idx_choices_qstnid')[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("census_data_groups")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("census_questions")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('idx_qstns_datagrpid')
+  [1m[36m (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateCensusTables (20120221154551)
+  [1m[35m (0.4ms)[0m  select sqlite_version(*)
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("census_answers")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('idx_answrs_usrid')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('idx_answrs_qstnid')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("census_choices")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('idx_choices_qstnid')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("census_data_groups")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("census_questions")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('idx_qstns_datagrpid')[0m
+  [1m[36m (0.6ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (3.3ms)[0m  DROP TABLE "census_answers"
+  [1m[36m (2.0ms)[0m  [1mCREATE TABLE "census_answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "user_id" integer, "data" varchar(255)) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("census_answers")
+  [1m[36m (55.1ms)[0m  [1mCREATE INDEX "idx_answrs_qstnid" ON "census_answers" ("question_id")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("census_answers")
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_info('idx_answrs_qstnid')[0m
+  [1m[35m (1.6ms)[0m  CREATE INDEX "idx_answrs_usrid" ON "census_answers" ("user_id")
+  [1m[36m (1.8ms)[0m  [1mDROP TABLE "census_choices"[0m
+  [1m[35m (10.1ms)[0m  CREATE TABLE "census_choices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "value" varchar(255), "position" integer, "group" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("census_choices")[0m
+  [1m[35m (1.7ms)[0m  CREATE INDEX "idx_choices_qstnid" ON "census_choices" ("question_id")
+  [1m[36m (1.7ms)[0m  [1mDROP TABLE "census_data_groups"[0m
+  [1m[35m (1.6ms)[0m  CREATE TABLE "census_data_groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (1.9ms)[0m  [1mDROP TABLE "census_questions"[0m
+  [1m[35m (6.0ms)[0m  CREATE TABLE "census_questions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "data_group_id" integer, "data_type" varchar(255), "prompt" varchar(255), "multiple" boolean, "other" boolean, "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("census_questions")[0m
+  [1m[35m (1.7ms)[0m  CREATE INDEX "idx_qstns_datagrpid" ON "census_questions" ("data_group_id")
+  [1m[36m (0.1ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.9ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (3.0ms)[0m  CREATE TABLE "census_answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "user_id" integer, "data" varchar(255)) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("census_answers")[0m
+  [1m[35m (1.7ms)[0m  CREATE INDEX "idx_answrs_qstnid" ON "census_answers" ("question_id")
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("census_answers")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('idx_answrs_qstnid')
+  [1m[36m (1.7ms)[0m  [1mCREATE INDEX "idx_answrs_usrid" ON "census_answers" ("user_id")[0m
+  [1m[35m (1.9ms)[0m  CREATE TABLE "census_choices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "value" varchar(255), "position" integer, "group" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("census_choices")[0m
+  [1m[35m (1.8ms)[0m  CREATE INDEX "idx_choices_qstnid" ON "census_choices" ("question_id")
+  [1m[36m (1.8ms)[0m  [1mCREATE TABLE "census_data_groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "position" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (1.8ms)[0m  CREATE TABLE "census_questions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "data_group_id" integer, "data_type" varchar(255), "prompt" varchar(255), "multiple" boolean, "other" boolean, "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("census_questions")[0m
+  [1m[35m (1.9ms)[0m  CREATE INDEX "idx_qstns_datagrpid" ON "census_questions" ("data_group_id")
+  [1m[36m (1.9ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("schema_migrations")
+  [1m[36m (2.0ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.1ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (1.8ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120221154551')[0m
+  [1m[35m (0.2ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (3.0ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (2.7ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateCensusTables (20120221154551)
+  [1m[35m (0.6ms)[0m  CREATE TABLE "census_data_groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "position" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.2ms)[0m  [1mCREATE TABLE "census_questions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "data_group_id" integer, "data_type" varchar(255), "prompt" varchar(255), "multiple" boolean, "other" boolean, "position" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("census_questions")
+  [1m[36m (0.1ms)[0m  [1mCREATE INDEX "idx_qstns_datagrpid" ON "census_questions" ("data_group_id")[0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "census_choices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "value" varchar(255), "position" integer, "group" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("census_choices")[0m
+  [1m[35m (0.1ms)[0m  CREATE INDEX "idx_choices_qstnid" ON "census_choices" ("question_id")
+  [1m[36m (0.2ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "census_answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "user_id" integer, "data" varchar(255)) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("census_answers")[0m
+  [1m[35m (0.1ms)[0m  CREATE INDEX "idx_answrs_qstnid" ON "census_answers" ("question_id")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("census_answers")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_info('idx_answrs_qstnid')
+  [1m[36m (0.2ms)[0m  [1mCREATE INDEX "idx_answrs_usrid" ON "census_answers" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20120221154551')
+  [1m[36m (0.4ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("census_answers")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('idx_answrs_usrid')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('idx_answrs_qstnid')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("census_choices")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('idx_choices_qstnid')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("census_data_groups")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("census_questions")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('idx_qstns_datagrpid')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m

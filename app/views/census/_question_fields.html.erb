@@ -1,0 +1,57 @@
+<% if question.data_type == 'Date' %>
+  <% answer = user.first_answer_for(question) -%>
+  <div class="date_question_fields" id="<%=h question.prompt.parameterize %>">
+    <% answer = user.first_answer_for(question) -%>
+    <%= fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer, :validators => {} do |f| -%>
+      <%= f.hidden_field :id %>
+      <%= f.hidden_field :question_id %>
+      <div class="text_field" id="<%=h question.prompt.parameterize %>">
+        <%= f.label :data, question.prompt %>
+        <%= f.text_field :data, :type => 'date', :maxlength => 10, :pattern => '\d+', :placeholder => 'mm/dd/yyyy' %>
+      </div>
+    <% end -%>
+  </div>
+<% elsif question.choices.empty? %>
+  <% answer = user.first_answer_for(question) -%>
+  <%= fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer, :validators => {} do |f| -%>
+    <%= f.hidden_field :id %>
+    <%= f.hidden_field :question_id %>
+    <div class="text_field" id="<%=h question.prompt.parameterize %>">
+      <%= f.label :data, question.prompt %>
+      <%= f.text_field :data %>
+    </div>
+  <% end -%>
+
+<% elsif question.multiple? %>
+  <div class="checkboxes" id="<%=h question.prompt.parameterize %>">
+    <%= label_tag question.prompt %>
+    <ul>
+      <% question.choices.each do |choice| -%>
+        <% answer = user.answer_for_choice(choice) -%>
+        <%= fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer, :validators => {} do |f| -%>
+          <%= f.hidden_field :id %>
+          <%= f.hidden_field :question_id %>
+          <li>
+            <%= f.check_box :data, {}, choice.value, '' %>
+            <%= f.label :data, choice.value %>
+          </li>
+        <% end -%>
+      <% end -%>
+    </ul>
+  </div>
+
+<% else %>
+  <% answer = user.first_answer_for(question) -%>
+  <%= fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer, :validators => {} do |f| -%>
+    <%= f.hidden_field :id %>
+    <%= f.hidden_field :question_id %>
+    <div class="select_field" id="<%=h question.prompt.parameterize %>">
+      <%= f.label :data, question.prompt %>
+      <% if answer.data.blank? %>
+        <%= f.collection_select :data, question.choices, :value, :value, :include_blank => true %>
+      <% else %>
+        <%= f.collection_select :data, question.choices, :value, :value %>
+      <% end %>
+    </div>
+  <% end -%>
+<% end -%>

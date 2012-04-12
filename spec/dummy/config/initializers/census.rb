@@ -1,0 +1,1 @@
+../../../lib/generators/census/templates/census.rb
