@@ -37,7 +37,11 @@ module Census
 
     def data=(data)
       if question.data_type == 'Date'
-        date_data = Date.strptime(data, "%m/%d/%Y") unless data.blank?
+        begin
+          date_data = Date.strptime(data, "%m/%d/%Y") unless data.blank?
+        rescue
+          date_data = data
+        end
         write_attribute(:data, "#{date_data.to_s}")
       else
         write_attribute(:data, data)
