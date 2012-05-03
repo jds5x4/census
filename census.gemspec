@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   # s.add_dependency "jquery-rails"
 
   s.add_development_dependency "sqlite3"
-  s.add_runtime_dependency "acts_as_list", ">= 0.1.2"
+  s.add_runtime_dependency "acts_as_list", "~> 0.1.5"
   s.add_runtime_dependency "inverse_of", ">= 0.0.1"
   # s.add_runtime_dependency 'formtastic', '~> 2.1', :git => 'https://github.com/justinfrench/formtastic.git', :branch => 'rename_timeish_inputs'
   s.add_development_dependency "rspec-rails", "~> 2.5"
