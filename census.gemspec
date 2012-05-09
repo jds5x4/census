@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.version     = Census::VERSION
   s.authors     = ["Joshua Smith"]
   s.email       = ["jsmith@addsheet.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Census."
+  #s.homepage    = "TODO"
+  s.summary     = "Rough upgrade of census gem to be compatible with rails 3.2"
   s.description = "Get Census like date"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
