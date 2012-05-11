@@ -4,6 +4,7 @@ module Census
     attr_accessor :sql_transform
     attr_accessor :format_data
     attr_accessor :validate_data
+    attr_accessor :data_to_string
 
     @@data_types = []
 
@@ -24,6 +25,7 @@ module Census
       @sql_transform  = options[:sql_transform] || lambda {|column_name| "#{column_name}"}
       @format_data    = options[:format_data]   || lambda {|data| data}
       @validate_data  = options[:validate_data] || lambda {|data| nil}
+      @data_to_string = options[:data_to_string]|| lambda {|data| data}
     end
     
     def to_s

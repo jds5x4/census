@@ -5,7 +5,7 @@ module Census
     belongs_to :user, :inverse_of => :answers, :class_name => '::User'
 
     validates_presence_of :question,
-                          :user
+                          :user 
                           
     validate :ensure_valid_choice
     validate :ensure_valid_data_type
@@ -20,33 +20,37 @@ module Census
     def to_s
       question.to_s(self.data)
     end
-    
+
     def data
-      if question.data_type == 'Date'
-        date = read_attribute(:data)
-        begin
-          date_data = Date.parse(read_attribute(:data))
-          date_data.strftime("%m/%d/%Y")
-        rescue
-          nil
-        end
-      else
-        read_attribute(:data)
-      end
+      data = read_attribute(:data)
+      question.format_data(data) #unless data.blank?
     end
 
-    def data=(data)
-      if question.data_type == 'Date'
-        begin
-          date_data = Date.strptime(data, "%m/%d/%Y") unless data.blank?
-        rescue
-          date_data = data
-        end
-        write_attribute(:data, "#{date_data.to_s}")
-      else
-        write_attribute(:data, data)
-      end
-    end
+    # def data=(data)
+    #   debugger
+    #   write_attribute(:data, question.data_to_string(data)) unless data.blank?
+    # end
+    # def data
+    #   if question.data_type == 'Date'
+    #     date = read_attribute(:data)
+    #     begin
+    #       #date_data = Date.strptime(read_attribute(:data), '%m/%d/%Y')
+    #       date_data = Date.parse(read_attribute(:data)).strftime("%B %d, %Y")
+    #     rescue
+    #       nil
+    #     end
+    #   else
+    #     read_attribute(:data)
+    #   end
+    # end
+
+    # def data=(data)
+    #   if question.data_type == 'Date'
+    #     write_attribute(:data, "#{data.to_s}")
+    #   else
+    #     write_attribute(:data, data)
+    #   end
+    # end
     
     private
     

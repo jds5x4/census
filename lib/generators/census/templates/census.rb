@@ -25,3 +25,8 @@ Census::DataType.define(
   :format_data    => lambda {|data| data.to_i unless data.blank? },
   :validate_data  => lambda {|data| "must be a number" unless data =~ /^\d*$/}
 )
+
+Census::DataType.define(
+  "Date",
+  :format_data    => lambda {|data| data.strftime("%B %d, %Y")
+    })

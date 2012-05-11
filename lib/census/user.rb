@@ -31,6 +31,7 @@ module Census
           accepts_nested_attributes_for :answers, :reject_if => lambda { |a| a[:data].blank? }
         end
       end
+      
     end
 
     module Callbacks
@@ -106,7 +107,7 @@ module Census
 
       def has_unanswered_questions_for?(data_group)
         questions = data_group.questions
-        questions.each {|q| return true if first_answer_for(q).data.blank?}
+        questions.each {|q| return true if all_answers_for(q).blank?}
         false
       end
 
@@ -143,6 +144,5 @@ module Census
         end
       end
     end
-
   end
 end

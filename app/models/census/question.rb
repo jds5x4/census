@@ -26,6 +26,10 @@ module Census
       data_type_definition.validate_data.call(data)
     end
     
+    def data_to_string(data)
+      data_type_definition.data_to_string.call(data)
+    end
+
     def to_s(data)
       format_data(data).to_s
     end
