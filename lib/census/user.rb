@@ -29,6 +29,7 @@ module Census
         model.class_eval do
           has_many :answers, :dependent => :destroy, :inverse_of => :user, :class_name => 'Census::Answer'
           accepts_nested_attributes_for :answers, :reject_if => lambda { |a| a[:data].blank? }
+          attr_accessible :answer_attributes
         end
       end
       
@@ -73,7 +74,7 @@ module Census
       # answer if the user has not answered the question.
       #
       def first_answer_for(question)
-        answers.find_by_question_id(question.id).try(:first) || answers.build(:question => question, :data => '')
+        answers.find_by_question_id(question.id).try(:first) || question.answers.build( :data => '')
         # answers.select {|a| a.question == question}.first || answers.build(:question => question, :data => '')
       end
 
@@ -91,7 +92,7 @@ module Census
       # question, or a new empty answer if the user did not select the given choice.
       #
       def answer_for_choice(choice)
-        answers.select {|a| a.question == choice.question && a.data == choice.value}.first || answers.build(:question => choice.question, :data => '')
+        answers.select {|a| a.question == choice.question && a.data == choice.value}.first || choice.question.answers.build(:data => '')
       end
       
       #
