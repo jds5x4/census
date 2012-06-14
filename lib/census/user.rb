@@ -73,7 +73,8 @@ module Census
       # answer if the user has not answered the question.
       #
       def first_answer_for(question)
-        answers.select {|a| a.question == question}.first || answers.build(:question => question, :data => '')
+        answers.find_by_question_id(question.id).try(:first) || answers.build(:question => question, :data => '')
+        # answers.select {|a| a.question == question}.first || answers.build(:question => question, :data => '')
       end
 
       #
@@ -81,7 +82,8 @@ module Census
       # array will be empty if the user has not answered this question.
       #
       def all_answers_for(question)
-        answers.select {|a| a.question == question}
+        answers.find_all_by_question_id(question.id)
+        # answers.select {|a| a.question == question}
       end
 
       #
