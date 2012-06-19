@@ -29,7 +29,7 @@ module Census
         model.class_eval do
           has_many :answers, :dependent => :destroy, :inverse_of => :user, :class_name => 'Census::Answer'
           accepts_nested_attributes_for :answers, :reject_if => lambda { |a| a[:data].blank? }
-          attr_accessible :answer_attributes
+          attr_accessible :answers_attributes
         end
       end
       
