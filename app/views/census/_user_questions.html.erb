@@ -1,5 +1,5 @@
 <% if formtastic ||= false %>
-  <%= render partial: 'census/question_fields_formtastic', collection: datagroup.questions, as: :question, locals: { user: user } %>
+  <%= render partial: 'census/question_fields_formtastic', collection: user.unanswered_questions_for(datagroup), as: :question, locals: { user: user } %>
 <% else %>
   <div class="census_questions">
     <% Census::DataGroup.all.each do |group| -%>

@@ -14,6 +14,8 @@ module Census
     validates_presence_of :prompt,
                           :data_group
 
+    attr_accessible :data_group_id, :data_type, :string, :multiple, :other, :position
+
     def sql_transform(column_name = '?')
       data_type_definition.sql_transform.call(column_name)
     end

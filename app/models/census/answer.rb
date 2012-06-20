@@ -13,7 +13,7 @@ module Census
     
     scope :for_user, lambda { |user| { :conditions => {:user_id => user.id} } }
 
-    attr_accessible :data, :question
+    attr_accessible :data, :question_id
 
     def formatted_data
       question.format_data(self.data)

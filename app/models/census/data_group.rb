@@ -9,6 +9,8 @@ module Census
     accepts_nested_attributes_for :questions, :reject_if => lambda { |a| a[:prompt].blank? }, :allow_destroy => true
     
     validates_presence_of :name
+
+    attr_accessible :name, :questions_attributes, :position
     
   end
 end

@@ -8,6 +8,7 @@
       <% end %>
     <% end %>
 <% elsif question.choices.empty? %>
+  <% #debugger %>
   <% answer = user.first_answer_for(question) -%>
   <%= semantic_fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer do |f| -%>
     <%= f.inputs do %>

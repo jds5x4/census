@@ -74,7 +74,7 @@ module Census
       # answer if the user has not answered the question.
       #
       def first_answer_for(question)
-        answers.find_by_question_id(question.id).try(:first) || question.answers.build( :data => '')
+        answers.find_all_by_question_id(question.id).try(:first) || question.answers.build( :data => '')
         # answers.select {|a| a.question == question}.first || answers.build(:question => question, :data => '')
       end
 
@@ -92,7 +92,7 @@ module Census
       # question, or a new empty answer if the user did not select the given choice.
       #
       def answer_for_choice(choice)
-        answers.select {|a| a.question == choice.question && a.data == choice.value}.first || choice.question.answers.build(:data => '')
+        answers.select {|a| a.question == choice.question && a.data == choice.value}.try(:first) || choice.question.answers.build(:data => '')
       end
       
       #
